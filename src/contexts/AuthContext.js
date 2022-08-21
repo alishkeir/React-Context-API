@@ -1,4 +1,4 @@
-import { createContext, useState } from 'react';
+import React, { createContext, useState } from 'react';
 
 export const AuthContext = createContext();
 
@@ -9,14 +9,16 @@ const AuthContextProvider = ({ children }) => {
         setIsLoggedIn(!isLoggedIn);
     };
 
-    <AuthContext.Provider
-        value={{
-            isLoggedIn,
-            changeAuthStatus,
-        }}
-    >
-        {children}
-    </AuthContext.Provider>;
+    return (
+        <AuthContext.Provider
+            value={{
+                isLoggedIn,
+                changeAuthStatus,
+            }}
+        >
+            {children}
+        </AuthContext.Provider>
+    );
 };
 
 export default AuthContextProvider;
