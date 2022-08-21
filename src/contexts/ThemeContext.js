@@ -1,37 +1,29 @@
-import { Component, createContext } from 'react';
+import { createContext, useState } from 'react';
 
 export const ThemeContext = createContext();
 
-export default class ThemeContextProvider extends Component {
-    state = {
-        isDarkTheme: true,
-        lightTheme: {
-            text: '#222222',
-            background: '#d8ddf1',
-        },
-        darkTheme: {
-            text: '#fff',
-            background: '#5c5c5c',
-        },
+const ThemeContextProvider = ({ children }) => {
+    const [isDarkTheme, setIsDarkTheme] = useState(false);
+    const [lightTheme] = useState({
+        text: '#222222',
+        background: '#d8ddf1',
+    });
+    const [darkTheme] = useState({
+        text: '#fff',
+        background: '#5c5c5c',
+    });
+
+    const changeTheme = () => {
+        setIsDarkTheme(!isDarkTheme);
     };
 
-    changeTheme = () => {
-        this.setState({
-            isDarkTheme: !this.state.isDarkTheme,
-        });
-    };
+    return (
+        <ThemeContext.Provider
+            value={{ isDarkTheme, lightTheme, darkTheme, changeTheme }}
+        >
+            {children}
+        </ThemeContext.Provider>
+    );
+};
 
-    render() {
-        return (
-            <>
-                {/* value describes what data should be shared with the child components */}
-                <ThemeContext.Provider
-                    value={{ ...this.state, changeTheme: this.changeTheme }}
-                >
-                    {/* this.props.children means return the children components inside the <ThemeContextProvider> tag */}
-                    {this.props.children}
-                </ThemeContext.Provider>
-            </>
-        );
-    }
-}
+export default ThemeContextProvider;
