@@ -7,14 +7,14 @@ const TodoList = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        addTodo(text);
+        dispatch({ type: 'ADD_TODO', text });
         setText('');
     };
 
     const { isDarkTheme, darkTheme, lightTheme, changeTheme } =
         useContext(ThemeContext);
 
-    const { todos, addTodo, removeTodo } = useContext(TodoListContext);
+    const { todos, dispatch } = useContext(TodoListContext);
 
     const theme = isDarkTheme ? darkTheme : lightTheme;
 
@@ -34,8 +34,10 @@ const TodoList = () => {
                             key={todo.id}
                             className='item'
                             onDoubleClick={(e) => {
-                                removeTodo(e.target.id);
-                                console.log(e);
+                                dispatch({
+                                    type: 'REMOVE_TODO',
+                                    id: e.target.id,
+                                });
                             }}
                         >
                             {todo.text}
